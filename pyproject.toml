@@ -1,0 +1,9 @@
+[project]
+name = "testpick"
+version = "0.1.0"
+description = "Run only the tests a change can affect, using per-test coverage"
+requires-python = ">=3.10"
+dependencies = ["coverage>=7.4", "pytest>=8.2", "pytest-cov"]
+
+[project.scripts]
+testpick = "testpick.cli:main"
