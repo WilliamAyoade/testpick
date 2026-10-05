@@ -19,7 +19,7 @@ import threading
 from types import CodeType, FrameType
 from typing import Any
 
-from .functions import MODULE, normalize_qualname
+from .functions import MODULE, FunctionIndex, normalize_qualname
 
 _SKIP_DIRS = ("site-packages", "dist-packages", "/.git/", "/.venv/", "/venv/", "/.tox/", "/node_modules/")
 
@@ -33,6 +33,7 @@ class Recorder:
         self.files: set[str] | None = None
         self._paths: dict[str, str | None] = {}  # filename -> repo-relative path, or None if not ours
         self._keys: dict[CodeType, str | None] = {}
+        self._indexes: dict[str, FunctionIndex] = {}  # Python 3.10 only: code objects lack co_qualname
         self.mode = mode or os.environ.get("TESTPICK_RECORDER") or ("monitoring" if sys.version_info >= (3, 12) else "profile")
         self._tool: int | None = None
         self._audit_installed = False
@@ -60,14 +61,32 @@ class Recorder:
         rel = self._rel(code.co_filename)
         key = None
         if rel is not None and rel.endswith(".py"):
-            if code.co_flags & inspect.CO_NEWLOCALS:
-                key = f"{rel}::{normalize_qualname(getattr(code, 'co_qualname', code.co_name))}"
-            else:
-                # a module or class body running during a test (a lazy import, or a class built on
-                # the fly): the test depends on that file's module-level code
-                key = f"{rel}::{MODULE}"
+            # A module or class body running during a test (a lazy import, or a class built on
+            # the fly) means the test depends on that file's module-level code.
+            name = self._qualname(code) if code.co_flags & inspect.CO_NEWLOCALS else MODULE
+            key = f"{rel}::{name}"
         self._keys[code] = key
         return key
+
+    def _qualname(self, code: CodeType) -> str:
+        qualname = getattr(code, "co_qualname", None)
+        if qualname is not None:
+            return normalize_qualname(qualname)
+        # Python 3.10: only the bare name is known, so look the function up by its first line
+        # (which, like the index's spans, starts at the first decorator)
+        index = self._indexes.get(code.co_filename)
+        if index is None:
+            files, self.files = self.files, None  # don't count our own read as the test's
+            try:
+                with open(code.co_filename, encoding="utf-8") as f:
+                    index = FunctionIndex(f.read())
+            except (OSError, UnicodeDecodeError):
+                index = FunctionIndex("")
+            finally:
+                self.files = files
+            self._indexes[code.co_filename] = index
+        name = index.at(code.co_firstlineno)
+        return name if name != MODULE else normalize_qualname(code.co_name)
 
     # ---------------------------------------------------------------- start / stop
 

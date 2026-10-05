@@ -172,7 +172,7 @@ imports, and explains each choice.
 ```console
 pip install -e ".[dev]"
 pytest              # 31 tests, mostly end-to-end runs in throwaway git repos
-                    # (tested locally on Python 3.11–3.13; CI covers 3.10–3.13)
+                    # (tested on Python 3.10–3.13, locally and in CI)
 ruff check . && mypy
 ```
 

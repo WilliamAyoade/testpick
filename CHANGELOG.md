@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+- Python 3.10: methods and nested functions were recorded under their bare name (`describe`
+  instead of `Shape.describe`), because code objects only have `co_qualname` from 3.11. The
+  recorder now looks the function up by its first line.
+- CI: newer `actions/checkout` and `actions/setup-python`.
+
 ## 0.2.0
 
 - pytest plugin: `--testpick-record` records a map, `--testpick=BASE` runs only affected tests.
