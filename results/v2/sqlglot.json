@@ -1,0 +1,789 @@
+[
+ {
+  "commit": "2960bdd74",
+  "subject": "fix(optimizer): preserve tautological aggregate filters [CODEX] (#8466)",
+  "run_all": null,
+  "tests": 82,
+  "seconds": 7.6,
+  "file_level_tests": 88,
+  "file_level_seconds": 7.89,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/optimizer/simplify.py",
+    "line": 710,
+    "bug": "and/or swapped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 3.68,
+    "first_failure_unordered_s": 4.96
+   }
+  ],
+  "picked_run_seconds": 33.18
+ },
+ {
+  "commit": "840b4823e",
+  "subject": "fix(postgres): keep WITH ORDINALITY alias columns on LATERAL UNNEST [GROK] (#8463)",
+  "run_all": null,
+  "tests": 58,
+  "seconds": 7.66,
+  "file_level_tests": 1148,
+  "file_level_seconds": 75.1,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/expressions/query.py::Lateral.selects"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/generator.py",
+    "line": 2963,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.41,
+    "first_failure_unordered_s": 2.77
+   },
+   {
+    "file": "sqlglot/generator.py",
+    "line": 2967,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.29,
+    "first_failure_unordered_s": 2.74
+   },
+   {
+    "file": "sqlglot/expressions/query.py",
+    "line": 814,
+    "bug": "returns None",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.99,
+    "first_failure_unordered_s": 3.1
+   },
+   {
+    "file": "sqlglot/expressions/query.py",
+    "line": 811,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.3,
+    "first_failure_unordered_s": 5.63
+   },
+   {
+    "file": "sqlglot/generator.py",
+    "line": 2962,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.2,
+    "first_failure_unordered_s": 2.31
+   }
+  ],
+  "picked_run_seconds": 9.08
+ },
+ {
+  "commit": "53868cf81",
+  "subject": "lateral unnest with ordinality fixups",
+  "run_all": null,
+  "tests": 29,
+  "seconds": 7.44,
+  "file_level_tests": 1147,
+  "file_level_seconds": 75.1,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/expressions/query.py::Lateral.selects"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/optimizer/canonicalize_internal_names.py",
+    "line": 213,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.53,
+    "first_failure_unordered_s": 2.97
+   },
+   {
+    "file": "sqlglot/expressions/query.py",
+    "line": 814,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.38,
+    "first_failure_unordered_s": 2.98
+   }
+  ],
+  "picked_run_seconds": 8.91
+ },
+ {
+  "commit": "ac940f016",
+  "subject": "refactor(tokenizer): generalize backslash escape handling, report unterminated escapes (#8470)",
+  "run_all": null,
+  "tests": 648,
+  "seconds": 55.86,
+  "file_level_tests": 1264,
+  "file_level_seconds": 108.1,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/tokenizer_core.py::TokenizerCore._scan_escape",
+   "sqlglot/tokenizer_core.py::TokenizerCore._scan_numeric_escape"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/dialects/dialect.py",
+    "line": 352,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/dialect.py",
+    "line": 364,
+    "bug": "number changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/dialect.py",
+    "line": 351,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/dialect.py",
+    "line": 356,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/dialect.py",
+    "line": 355,
+    "bug": "comparison flipped to not in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 9.74,
+    "first_failure_unordered_s": 4.37
+   }
+  ],
+  "picked_run_seconds": 75.65
+ },
+ {
+  "commit": "1e6ac8f46",
+  "subject": "Sync w/ integration tests",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "aa7020207",
+  "subject": "fix(optimizer): qualify struct paths with conflicting aliases [CODEX] (#8467)",
+  "run_all": null,
+  "tests": 207,
+  "seconds": 28.17,
+  "file_level_tests": 226,
+  "file_level_seconds": 28.89,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 621,
+    "bug": "number changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 7.08,
+    "first_failure_unordered_s": 12.32
+   },
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 620,
+    "bug": "and/or swapped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 1.72,
+    "first_failure_unordered_s": 1.72
+   },
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 625,
+    "bug": "comparison flipped to not in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 6.95,
+    "first_failure_unordered_s": 12.0
+   },
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 624,
+    "bug": "comparison flipped to not in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 7.14,
+    "first_failure_unordered_s": 12.64
+   },
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 651,
+    "bug": "and/or swapped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 1.95,
+    "first_failure_unordered_s": 1.81
+   }
+  ],
+  "picked_run_seconds": 41.7
+ },
+ {
+  "commit": "b54d32f03",
+  "subject": "fix(optimizer): stop struct lookup at nearest alias [CODEX]",
+  "run_all": null,
+  "tests": 207,
+  "seconds": 28.17,
+  "file_level_tests": 226,
+  "file_level_seconds": 28.89,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 623,
+    "bug": "comparison flipped to in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 7.13,
+    "first_failure_unordered_s": 12.32
+   },
+   {
+    "file": "sqlglot/optimizer/qualify_columns.py",
+    "line": 625,
+    "bug": "comparison flipped to not in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 7.31,
+    "first_failure_unordered_s": 12.72
+   }
+  ],
+  "picked_run_seconds": 42.88
+ },
+ {
+  "commit": "5d16fa83b",
+  "subject": "fix(ci): publish sqlglot independently of sqlglotc [CODEX]",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "cb8f96327",
+  "subject": "Update CHANGELOG.md for v30.21.0 [skip ci]",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "61fc386dc",
+  "subject": "fix(clickhouse): generate toDayOfMonth and toDayOfYear (#8473)",
+  "run_all": null,
+  "tests": 85,
+  "seconds": 9.33,
+  "file_level_tests": 85,
+  "file_level_seconds": 9.33,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/generators/clickhouse.py",
+    "line": 316,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 3.18,
+    "first_failure_unordered_s": 4.03
+   },
+   {
+    "file": "sqlglot/generators/clickhouse.py",
+    "line": 315,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 3.38,
+    "first_failure_unordered_s": 3.75
+   }
+  ],
+  "picked_run_seconds": 11.07
+ },
+ {
+  "commit": "4afe079f9",
+  "subject": "fix(ci): wait for sqlglotc before publishing sqlglot [CODEX]",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "735aa250e",
+  "subject": "ci: add one-time sqlglotc 30.21.0 upload [CODEX]",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "03f96df1d",
+  "subject": "ci: remove one-time sqlglotc upload [CODEX]",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "cb5d8da1b",
+  "subject": "fix(duckdb): check for an empty regexp pattern before embedding flags (#8474)",
+  "run_all": null,
+  "tests": 101,
+  "seconds": 1.55,
+  "file_level_tests": 293,
+  "file_level_seconds": 47.64,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/generators/duckdb.py",
+    "line": 3353,
+    "bug": "number changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.11,
+    "first_failure_unordered_s": 2.39
+   },
+   {
+    "file": "sqlglot/generators/duckdb.py",
+    "line": 4290,
+    "bug": "number changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 2.31,
+    "first_failure_unordered_s": 2.58
+   }
+  ],
+  "picked_run_seconds": 3.68
+ },
+ {
+  "commit": "5d997d94d",
+  "subject": "feat(parser)!: Parse bare `ALTER TABLE ... DROP c`. (#8432)",
+  "run_all": null,
+  "tests": 1264,
+  "seconds": 108.1,
+  "file_level_tests": 1203,
+  "file_level_seconds": 107.87,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/parser.py",
+    "line": 2475,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.8,
+    "first_failure_unordered_s": 4.51
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 9142,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.52,
+    "first_failure_unordered_s": 8.05
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 2474,
+    "bug": "returns None",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.48,
+    "first_failure_unordered_s": 7.83
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 2412,
+    "bug": "boolean flipped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.93,
+    "first_failure_unordered_s": 4.2
+   },
+   {
+    "file": "sqlglot/parsers/mysql.py",
+    "line": 300,
+    "bug": "boolean flipped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.53,
+    "first_failure_unordered_s": 8.3
+   }
+  ],
+  "picked_run_seconds": 181.5
+ },
+ {
+  "commit": "ac084c5bd",
+  "subject": "fix(builders): allow None table name in table_ for sqlglotc (#8476)",
+  "run_all": null,
+  "tests": 32,
+  "seconds": 1.15,
+  "file_level_tests": 511,
+  "file_level_seconds": 23.52,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "c7778cf56",
+  "subject": "fix(parser): bare ALTER DROP refactor and indexes named concurrently",
+  "run_all": null,
+  "tests": 113,
+  "seconds": 7.87,
+  "file_level_tests": 1202,
+  "file_level_seconds": 107.85,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/parsers/doris.py",
+    "line": 29,
+    "bug": "boolean flipped",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 2422,
+    "bug": "boolean flipped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.18,
+    "first_failure_unordered_s": 5.18
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 2430,
+    "bug": "comparison flipped to not in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 5.3,
+    "first_failure_unordered_s": 5.95
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 2425,
+    "bug": "and/or swapped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.04,
+    "first_failure_unordered_s": 4.64
+   },
+   {
+    "file": "sqlglot/parser.py",
+    "line": 8168,
+    "bug": "and/or swapped",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 8.81,
+    "first_failure_unordered_s": 7.39
+   }
+  ],
+  "picked_run_seconds": 14.08
+ },
+ {
+  "commit": "15a77f1d8",
+  "subject": "fix(mysql): decode backslash string escapes (#8471)",
+  "run_all": null,
+  "tests": 1264,
+  "seconds": 108.1,
+  "file_level_tests": 1250,
+  "file_level_seconds": 108.05,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/generators/singlestore.py::SingleStoreGenerator.isascii_sql"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/dialects/mysql.py",
+    "line": 75,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/mysql.py",
+    "line": 72,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/generators/singlestore.py",
+    "line": 1429,
+    "bug": "boolean flipped",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/mysql.py",
+    "line": 73,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/tokenizer_core.py",
+    "line": 1285,
+    "bug": "comparison flipped to not in",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 20.58,
+    "first_failure_unordered_s": 9.33
+   }
+  ],
+  "picked_run_seconds": 170.24
+ },
+ {
+  "commit": "b06f44200",
+  "subject": "Sync w/ integration tests",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "49d6ed436",
+  "subject": "fix(hive): decode backslash string escapes (#8478)",
+  "run_all": null,
+  "tests": 1264,
+  "seconds": 108.1,
+  "file_level_tests": 1248,
+  "file_level_seconds": 108.04,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/tokenizer_core.py::TokenizerCore._scan_numeric_escape"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/dialects/spark.py",
+    "line": 31,
+    "bug": "number changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 4.3
+   },
+   {
+    "file": "sqlglot/dialects/hive.py",
+    "line": 92,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/hive.py",
+    "line": 104,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   }
+  ]
+ },
+ {
+  "commit": "ba7406472",
+  "subject": "Sync w/ integration tests",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "8f0d751dd",
+  "subject": "chore: fix multi-processing py313 CI warnings (#8477)",
+  "run_all": null,
+  "tests": 155,
+  "seconds": 61.34,
+  "file_level_tests": 155,
+  "file_level_seconds": 61.34,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "fdc0339b2",
+  "subject": "fix(bigquery)!: decode string escapes and preserve byte literals (#8479)",
+  "run_all": null,
+  "tests": 1264,
+  "seconds": 108.1,
+  "file_level_tests": 1256,
+  "file_level_seconds": 108.08,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/generators/duckdb.py::DuckDBGenerator.bytestring_sql",
+   "sqlglot/generators/postgres.py::PostgresGenerator.bytestring_sql",
+   "sqlglot/generators/redshift.py::RedshiftGenerator.bytestring_sql"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/dialects/bigquery.py",
+    "line": 173,
+    "bug": "number changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/bigquery.py",
+    "line": 175,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/bigquery.py",
+    "line": 176,
+    "bug": "number changed",
+    "verdict": "no test catches it"
+   }
+  ]
+ },
+ {
+  "commit": "eeeb86899",
+  "subject": "Sync w/ integration tests",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "db3931c8b",
+  "subject": "feat(mysql): Fix sqlglot tokenizer to incorporate mysql rules (#8465)",
+  "run_all": "module-level change in sqlglot/dialects/clickhouse.py, and no recorded test ran code that uses it",
+  "tests": 1294,
+  "seconds": 108.28,
+  "file_level_tests": 1294,
+  "file_level_seconds": 108.2783,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/tokenizer_core.py",
+    "line": 889,
+    "bug": "number changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/sqlite.py",
+    "line": 28,
+    "bug": "boolean flipped",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/dialects/clickhouse.py",
+    "line": 72,
+    "bug": "boolean flipped",
+    "verdict": "no test catches it"
+   }
+  ]
+ },
+ {
+  "commit": "5cc5ef046",
+  "subject": "fix(drill)!: preserve backslashes in string literals (#8481)",
+  "run_all": null,
+  "tests": 20,
+  "seconds": 1.82,
+  "file_level_tests": 20,
+  "file_level_seconds": 1.82,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/generators/drill.py::DrillGenerator.bytestring_sql"
+  ],
+  "mutants": [
+   {
+    "file": "sqlglot/dialects/drill.py",
+    "line": 56,
+    "bug": "string changed",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/generators/drill.py",
+    "line": 110,
+    "bug": "returns None",
+    "verdict": "no test catches it"
+   },
+   {
+    "file": "sqlglot/generators/drill.py",
+    "line": 111,
+    "bug": "returns None",
+    "verdict": "no test catches it"
+   }
+  ]
+ },
+ {
+  "commit": "87191b790",
+  "subject": "Sync w/ integration tests",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "06fdfb4d2",
+  "subject": "Docstring: Mention where to find full Dialect list (#8483)",
+  "run_all": null,
+  "tests": 1201,
+  "seconds": 107.85,
+  "file_level_tests": 1201,
+  "file_level_seconds": 107.85,
+  "full_seconds": 108.28,
+  "uncovered": [
+   "sqlglot/__init__.py::tokenize"
+  ],
+  "mutants": []
+ },
+ {
+  "commit": "954503e4c",
+  "subject": "update readme",
+  "run_all": null,
+  "tests": 0,
+  "seconds": 0,
+  "file_level_tests": 0,
+  "file_level_seconds": 0,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": []
+ },
+ {
+  "commit": "13463de60",
+  "subject": "fix(clickhouse): parse isInfinite (#8487)",
+  "run_all": null,
+  "tests": 110,
+  "seconds": 9.79,
+  "file_level_tests": 110,
+  "file_level_seconds": 9.79,
+  "full_seconds": 108.28,
+  "uncovered": [],
+  "mutants": [
+   {
+    "file": "sqlglot/parsers/clickhouse.py",
+    "line": 307,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 3.23
+   },
+   {
+    "file": "sqlglot/generators/clickhouse.py",
+    "line": 321,
+    "bug": "string changed",
+    "verdict": "caught by picked tests",
+    "first_failure_s": 3.11
+   }
+  ]
+ }
+]

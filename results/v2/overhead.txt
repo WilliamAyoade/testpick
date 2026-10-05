@@ -1,0 +1,12 @@
+sqlglot plain 96.453580935
+sqlglot record 104.049844218
+sqlglot coverage 259.507401129
+sqlglot plain 95.578012806
+sqlglot record 101.318905959
+sqlglot coverage 261.397826294
+black plain 63.872587273
+black record 72.665287169
+black coverage 216.212072666
+black plain 63.998251471
+black record 72.728890536
+black coverage 221.695844545

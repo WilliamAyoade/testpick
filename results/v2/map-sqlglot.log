@@ -22,9 +22,10 @@
 =============================== warnings summary ===============================
 tests/test_executor.py: 4 warnings
 tests/test_optimizer.py: 46 warnings
-  /usr/lib/python3.13/multiprocessing/popen_fork.py:73: DeprecationWarning: This process (pid=1444) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  /usr/lib/python3.13/multiprocessing/popen_fork.py:73: DeprecationWarning: This process (pid=3737) is multi-threaded, use of fork() may lead to deadlocks in the child.
     self.pid = os.fork()
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-1294 passed, 50 warnings, 20276 subtests passed in 261.71s (0:04:21)
-mapped 1294 tests over 3144 functions at e7aa310df in 263s
+testpick: recorded 1294 tests at e7aa310df into /home/claude/rollout/map3.json.gz
+1294 passed, 50 warnings, 20276 subtests passed in 109.32s (0:01:49)
+WALL 110.760301045

@@ -1,107 +1,105 @@
-"""Build and load the test map: which tests run which functions, plus how long each test takes."""
+"""The test map: which functions and data files each test used, and how long each test took."""
+
 from __future__ import annotations
 
 import gzip
 import json
-import os
-import subprocess
-import sys
-import tempfile
 import time
-import xml.etree.ElementTree as ET
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
-from .functions import FunctionIndex
-from .gitdiff import git
+FORMAT = 2
 
 
 @dataclass
 class TestMap:
-    commit: str
-    source: str              # source package folder, e.g. "sqlglot"
-    tests_dir: str           # e.g. "tests"
-    tests: list[str]         # pytest node ids
-    durations: dict[str, float]
-    covers: dict[str, list[int]]  # "path::qualname" -> indexes into tests
-    full_seconds: float
+    __test__ = False  # not a pytest test class
+
+    commit: str  # commit the map was recorded at
+    tests: list[str]  # pytest node ids
+    durations: dict[str, float]  # node id -> seconds (setup + call + teardown)
+    functions: dict[str, list[int]]  # "path::qualname" -> indexes into tests
+    files: dict[str, list[int]]  # data file path -> indexes into tests
+    recorder: str = "monitoring"
+    created: float = field(default_factory=time.time)
+    record_seconds: float = 0.0  # wall time of the recording run
+    format: int = FORMAT
+
+    # ------------------------------------------------------------------ lookups
 
     def tests_for(self, key: str) -> set[str]:
-        return {self.tests[i] for i in self.covers.get(key, ())}
+        return {self.tests[i] for i in self.functions.get(key, ())}
 
     def tests_for_file(self, path: str) -> set[str]:
-        out: set[str] = set()
+        """Tests that ran any function defined in ``path``."""
         prefix = path + "::"
-        for k, idx in self.covers.items():
+        idx: set[int] = set()
+        for k, v in self.functions.items():
             if k.startswith(prefix):
-                out.update(self.tests[i] for i in idx)
-        return out
+                idx.update(v)
+        return {self.tests[i] for i in idx}
 
-    def save(self, path: str):
-        with gzip.open(path, "wt") as f:
-            json.dump(self.__dict__, f)
+    def tests_reading(self, path: str) -> set[str]:
+        return {self.tests[i] for i in self.files.get(path, ())}
+
+    def knows_path(self, path: str) -> bool:
+        return any(k.startswith(path + "::") for k in self.functions)
+
+    # ------------------------------------------------------------------ building
 
     @staticmethod
-    def load(path: str) -> "TestMap":
-        with gzip.open(path, "rt") as f:
-            return TestMap(**json.load(f))
-
-
-def nodeid_from_junit(classname: str, name: str, repo: str) -> str:
-    # "tests.dialects.test_bigquery.TestBigQuery" + "test_x" -> "tests/dialects/test_bigquery.py::TestBigQuery::test_x"
-    parts = classname.split(".")
-    for i in range(len(parts), 0, -1):
-        path = "/".join(parts[:i]) + ".py"
-        if os.path.isfile(os.path.join(repo, path)):
-            return "::".join([path, *parts[i:], name])
-    return f"{classname}::{name}"
-
-
-def build(repo: str, source: str, tests_dir: str, python: str = sys.executable, extra: list[str] | None = None) -> TestMap:
-    """Runs the whole suite once under coverage, recording which test ran each line."""
-    commit = git(repo, "rev-parse", "HEAD").strip()
-    with tempfile.TemporaryDirectory() as tmp:
-        cov_file, junit = os.path.join(tmp, ".coverage"), os.path.join(tmp, "junit.xml")
-        env = {**os.environ, "COVERAGE_FILE": cov_file}
-        t0 = time.time()
-        subprocess.run(
-            [python, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--cov={source}", "--cov-context=test",
-             "--cov-report=", f"--junitxml={junit}", tests_dir, *(extra or [])],
-            cwd=repo, env=env, check=False,
-        )
-        elapsed = time.time() - t0
-
+    def from_records(commit: str, records: dict[str, tuple[set[str], set[str], float]], recorder: str, seconds: float) -> TestMap:
+        tests = sorted(records)
+        index = {t: i for i, t in enumerate(tests)}
+        functions: dict[str, set[int]] = defaultdict(set)
+        files: dict[str, set[int]] = defaultdict(set)
         durations: dict[str, float] = {}
-        for tc in ET.parse(junit).getroot().iter("testcase"):
-            nid = nodeid_from_junit(tc.get("classname", ""), tc.get("name", ""), repo)
-            durations[nid] = durations.get(nid, 0.0) + float(tc.get("time", 0))
+        for t, (funcs, data, dur) in records.items():
+            i = index[t]
+            for k in funcs:
+                functions[k].add(i)
+            for f in data:
+                files[f].add(i)
+            durations[t] = round(dur, 4)
+        return TestMap(
+            commit,
+            tests,
+            durations,
+            {k: sorted(v) for k, v in sorted(functions.items())},
+            {k: sorted(v) for k, v in sorted(files.items())},
+            recorder,
+            time.time(),
+            round(seconds, 2),
+        )
 
-        from coverage import CoverageData
-        data = CoverageData(basename=cov_file)
-        data.read()
-        tests: list[str] = []
-        index: dict[str, int] = {}
-        covers: dict[str, set[int]] = defaultdict(set)
-        for abs_path in data.measured_files():
-            rel = os.path.relpath(abs_path, repo)
-            with open(abs_path) as f:
-                fi = FunctionIndex(f.read())
-            by_line = data.contexts_by_lineno(abs_path)
-            for line, contexts in by_line.items():
-                key = f"{rel}::{fi.at(line)}"
-                for ctx in contexts:
-                    if not ctx:
-                        continue  # lines run at import time, outside any test
-                    nid = ctx.rsplit("|", 1)[0]
-                    if nid not in index:
-                        index[nid] = len(tests)
-                        tests.append(nid)
-                    covers[key].add(index[nid])
-    unknown = [n for n in index if n not in durations]
-    if len(unknown) > len(index) // 10:
-        raise RuntimeError(f"{len(unknown)} covered tests have no timing; node ids don't line up: {unknown[:3]}")
-    for nid in durations:
-        if nid not in index:  # tests that touched no source lines still exist
-            index[nid] = len(tests)
-            tests.append(nid)
-    return TestMap(commit, source, tests_dir, tests, durations, {k: sorted(v) for k, v in covers.items()}, elapsed)
+    def records(self) -> dict[str, tuple[set[str], set[str], float]]:
+        out: dict[str, tuple[set[str], set[str], float]] = {t: (set(), set(), self.durations.get(t, 0.0)) for t in self.tests}
+        for k, idx in self.functions.items():
+            for i in idx:
+                out[self.tests[i]][0].add(k)
+        for f, idx in self.files.items():
+            for i in idx:
+                out[self.tests[i]][1].add(f)
+        return out
+
+    def updated(self, fresh: dict[str, tuple[set[str], set[str], float]]) -> TestMap:
+        """A copy where the given tests' entries are replaced by newly recorded ones."""
+        rec = self.records()
+        rec.update(fresh)
+        m = TestMap.from_records(self.commit, rec, self.recorder, self.record_seconds)
+        m.created = time.time()
+        return m
+
+    # ------------------------------------------------------------------ storage
+
+    def save(self, path: str) -> None:
+        with gzip.open(path, "wt", encoding="utf-8") as f:
+            json.dump(self.__dict__, f, separators=(",", ":"))
+
+    @staticmethod
+    def load(path: str) -> TestMap:
+        with gzip.open(path, "rt", encoding="utf-8") as f:
+            data = json.load(f)
+        if data.get("format") != FORMAT:
+            raise ValueError(f"{path} was written by another testpick version; record it again with `testpick record`")
+        return TestMap(**data)
